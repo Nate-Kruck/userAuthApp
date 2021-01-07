@@ -105,3 +105,10 @@ code {
     opacity: 1;
 }
 
+a {
+    color: red;
+}
+
+.fa-link {
+    color: red;
+}

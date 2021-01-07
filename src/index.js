@@ -35,6 +35,12 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.oidc.isAuthenticated();
+  res.locals.activeRoute = req.originalUrl;
+  next();
+});
+
 /**
  * Routes Definitions
  */
@@ -42,33 +48,48 @@ app.use(
 // > Home
 
 app.get("/", (req, res) => {
-  res.render("home", { activeRoute: req.originalUrl });
+  res.render("home");
 });
 
 // > Profile
 
 app.get("/profile", (req, res) => {
-  res.render("profile", { activeRoute: req.originalUrl });
+  res.render("profile");
 });
 
 // > External API
 
 app.get("/external-api", (req, res) => {
-  res.render("external-api", { activeRoute: req.originalUrl });
+  res.render("external-api");
 });
 
 // > Authentication
 
-app.get("/sign-up", (req, res) => {
+app.get("/sign-up/:page", (req, res) => {
+  const { page } = req.params;
+
   res.oidc.login({
+    returnTo: page,
     authorizationParams: {
       screen_hint: "signup",
     },
   });
 });
 
-app.get("/logout", (req, res) => {
-  res.oidc.logout({ returnTo: '/'})
+app.get("/login/:page", (req, res) => {
+  const { page } = req.params;
+
+  res.oidc.login({
+    returnTo: page,
+  })
+})
+
+app.get("/logout/:page", (req, res) => {
+  const { page } = req.params;
+
+  res.oidc.logout({ 
+    returnTo: page,
+  })
 });
 
 /**
