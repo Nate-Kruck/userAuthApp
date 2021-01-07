@@ -22,6 +22,12 @@ Open another terminal window and run the client proxy that enables live reload:
 npm run ui
 ```
 
+Execute the following command to generate a suitable string for the session secret:
+
+```
+node -e "console.log(crypto.randomBytes(32).toString('hex'))"
+```
+
 The application runs by on port `4040` to mitigate conflicting with other client applications you may be running.
 
 Visit [`http://localhost:4040/`](http://localhost:4040/) to access the starter application.
